@@ -8,30 +8,47 @@
 
 import UIKit
 
+class IHImageViewEffects : UIImageView{
+    
+    private var emitter = CAEmitterLayer()
 
-enum Colors {
-    
-    static let red = UIColor(red: 1.0, green: 0.0, blue: 77.0/255.0, alpha: 1.0)
-    static let blue = UIColor.blue
-    static let green = UIColor(red: 35.0/255.0 , green: 233/255, blue: 173/255.0, alpha: 1.0)
-    static let yellow = UIColor(red: 1, green: 209/255, blue: 77.0/255.0, alpha: 1.0)
-    
-}
+    override init(image: UIImage?) {
+        super.init(image: image)
 
-enum Images {
+    }
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+        //        emitter.emitterPosition = CGPoint(x: self.view.frame.size.width / 2, y: -10)
+        //        emitter.emitterShape = kCAEmitterLayerLine
+        //        emitter.emitterSize = CGSize(width: self.view.frame.size.width, height: 2.0)
+        //        emitter.emitterCells = generateEmitterCells()
+        //        self.imageView.layer.addSublayer(emitter)
+        
+        let when = DispatchTime.now() + 2 // change 2 to desired number of seconds
+        DispatchQueue.main.asyncAfter(deadline: when) {
+            self.emitter.removeFromSuperlayer()
+            self.createFireWorks()
+        }
+    }
     
-    static let box = UIImage(named: "Box")!
-    static let triangle = UIImage(named: "Triangle")!
-    static let circle = UIImage(named: "Circle")!
-    static let swirl = UIImage(named: "Spiral")!
     
-}
-
-class ViewController: UIViewController {
+    enum Colors {
+        
+        static let red = UIColor(red: 1.0, green: 0.0, blue: 77.0/255.0, alpha: 1.0)
+        static let blue = UIColor.blue
+        static let green = UIColor(red: 35.0/255.0 , green: 233/255, blue: 173/255.0, alpha: 1.0)
+        static let yellow = UIColor(red: 1, green: 209/255, blue: 77.0/255.0, alpha: 1.0)
+        
+    }
     
-    var emitter = CAEmitterLayer()
-    
-    @IBOutlet var imageView: UIImageView!
+    enum Images {
+        
+        static let box = UIImage(named: "Box")!
+        static let triangle = UIImage(named: "Triangle")!
+        static let circle = UIImage(named: "Circle")!
+        static let swirl = UIImage(named: "Spiral")!
+        
+    }
     
     var colors:[UIColor] = [
         Colors.red,
@@ -53,25 +70,7 @@ class ViewController: UIViewController {
         150,
         200
     ]
-    
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        
-        //        emitter.emitterPosition = CGPoint(x: self.view.frame.size.width / 2, y: -10)
-        //        emitter.emitterShape = kCAEmitterLayerLine
-        //        emitter.emitterSize = CGSize(width: self.view.frame.size.width, height: 2.0)
-        //        emitter.emitterCells = generateEmitterCells()
-        //        self.imageView.layer.addSublayer(emitter)
-        
-        let when = DispatchTime.now() + 2 // change 2 to desired number of seconds
-        DispatchQueue.main.asyncAfter(deadline: when) {
-            self.emitter.removeFromSuperlayer()
-            self.createFireWorks()
-        }
-        
-    }
-    
+
     private func generateEmitterCells() -> [CAEmitterCell] {
         var cells:[CAEmitterCell] = [CAEmitterCell]()
         for index in 0..<16 {
@@ -99,7 +98,7 @@ class ViewController: UIViewController {
         return cells
         
     }
-    
+
     private func getRandomVelocity() -> Int {
         return velocities[getRandomNumber()]
     }
@@ -124,18 +123,15 @@ class ViewController: UIViewController {
         return images[i % 4].cgImage!
     }
     
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
+
     
     func createFireWorks(){
         
         let image = UIImage(named: "particle")
         let img: CGImage = (image?.cgImage)!
         
-        print(self.imageView.frame.size.width/2)
-        emitter.emitterPosition = CGPoint(x: self.view.bounds.size.width/2, y: self.view.frame.size.height + 10)
+        print(self.frame.size.width/2)
+        emitter.emitterPosition = CGPoint(x: self.bounds.size.width/2, y: self.frame.size.height + 10)
         emitter.renderMode = kCAEmitterLayerAdditive
         
         
@@ -188,8 +184,32 @@ class ViewController: UIViewController {
         emitterCell.emitterCells = [flareCell,fireworkCell]
         self.emitter.emitterCells = [emitterCell]
         
-        self.view.layer.addSublayer(emitter)
+        self.layer.addSublayer(emitter)
     }
+    
+}
+
+
+
+class ViewController: UIViewController {
+    
+    
+    @IBOutlet var imageView: UIImageView!
+    
+    
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+ 
+        
+    }
+    
+
+    
+   
+    
+
     
     
 }
