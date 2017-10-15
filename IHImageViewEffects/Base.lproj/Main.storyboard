@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11542" systemVersion="16F73" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13196" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11524"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13173"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--View Controller-->
+        <!--Image Animations View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="IHImageViewEffects" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="BYZ-38-t0r" customClass="ImageAnimationsViewController" customModule="IHImageViewEffects" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
                         <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
@@ -21,20 +21,20 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="hassanSahab" translatesAutoresizingMaskIntoConstraints="NO" id="qRw-zA-Rzs" customClass="IHImageViewEffects" customModule="IHImageViewEffects" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="20" width="375" height="647"/>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="GPZ-Dx-fP7">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                             </imageView>
                         </subviews>
-                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="qRw-zA-Rzs" secondAttribute="bottom" id="HVE-tO-6Ku"/>
-                            <constraint firstAttribute="trailing" secondItem="qRw-zA-Rzs" secondAttribute="trailing" id="bI5-8R-56g"/>
-                            <constraint firstItem="qRw-zA-Rzs" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" id="bMR-0g-nQt"/>
-                            <constraint firstItem="qRw-zA-Rzs" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="iDn-q6-owb"/>
+                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="GPZ-Dx-fP7" secondAttribute="bottom" id="Irb-ac-WN3"/>
+                            <constraint firstItem="GPZ-Dx-fP7" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="VMZ-Az-RZh"/>
+                            <constraint firstAttribute="trailing" secondItem="GPZ-Dx-fP7" secondAttribute="trailing" id="W4r-GR-P09"/>
+                            <constraint firstItem="GPZ-Dx-fP7" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="Xa5-E7-0Cw"/>
                         </constraints>
                     </view>
                     <connections>
-                        <outlet property="imageView" destination="qRw-zA-Rzs" id="OgL-Ku-yzT"/>
+                        <outlet property="imageView" destination="GPZ-Dx-fP7" id="Fj5-i7-naR"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -42,7 +42,4 @@
             <point key="canvasLocation" x="136.80000000000001" y="135.38230884557723"/>
         </scene>
     </scenes>
-    <resources>
-        <image name="hassanSahab" width="1280" height="800"/>
-    </resources>
 </document>
