@@ -1,9 +1,9 @@
 # IHImageViewEffects
-An ImageView subclass with special animation effects.
-Provides animation based on Spritekit particle emitter no dependency on the SpriteKit framework and works as an independent normal imageView 
-subclass. 
+Provides animation based on Spritekit particle emitter no dependency on the SpriteKit framework and works as an independent normal imageView. 
 Highly customizabe.
-Currently has two effects:
+Currently has 4 effects:
 1. Confetti
 2. Fire Crackers
-Animations are added on to the imageView sublayer.
+3. Audience Cheer
+4. Baloons
+Animations are added on to the imageView sublayer. Animations are accompanied with Sound effects.
