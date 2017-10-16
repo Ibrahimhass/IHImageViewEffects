@@ -49,7 +49,7 @@ enum Colors {
  do {
  try AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayback)
  try AVAudioSession.sharedInstance().setActive(true)
- gameTimer = Timer.scheduledTimer(timeInterval: 2, target: self, selector: #selector(runTimedCode), userInfo: nil, repeats: false)
+ gameTimer = Timer.scheduledTimer(timeInterval: 3, target: self, selector: #selector(runTimedCode), userInfo: nil, repeats: false)
  player = try AVAudioPlayer(contentsOf: url)
  guard let player = player else { return }
  player.play()
