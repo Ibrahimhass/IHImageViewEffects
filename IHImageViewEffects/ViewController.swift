@@ -49,7 +49,7 @@ enum Colors {
  do {
  try AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayback)
  try AVAudioSession.sharedInstance().setActive(true)
- gameTimer = Timer.scheduledTimer(timeInterval: 5, target: self, selector: #selector(runTimedCode), userInfo: nil, repeats: false)
+ gameTimer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(runTimedCode), userInfo: nil, repeats: false)
  player = try AVAudioPlayer(contentsOf: url)
  guard let player = player else { return }
  player.play()
@@ -60,18 +60,19 @@ enum Colors {
  func runTimedCode() {
  player?.stop()
  self.imageView.layer.sublayers?.removeAll()
- self.emitter = CAEmitterLayer()
- self.emitter.removeFromSuperlayer()
  counter += 1
     if counter % 3 == 1 {
+        self.emitter = CAEmitterLayer()
         type = Types.Confetti
         playAnimation()
     }
     else if counter % 3 == 0 {
+        self.emitter = CAEmitterLayer()
         type = Types.Balloons
         self.playAnimation()
     }
     else {
+        self.emitter = CAEmitterLayer()
         type = Types.FireWorks
         self.playAnimation()
     }
