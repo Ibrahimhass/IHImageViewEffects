@@ -9,7 +9,6 @@
 import UIKit
 import AVFoundation
 enum Types : Int {
-    case AudienceCheer = 0
     case Confetti = 1
     case Balloons = 2
     case FireWorks = 3
@@ -50,15 +49,11 @@ enum Colors {
  self.emitter = CAEmitterLayer()
  self.emitter.removeFromSuperlayer()
  counter += 1
-    if counter % 4 == 0 {
-        type = Types.AudienceCheer
-        self.playAnimation()
-    }
-    else if counter % 4 == 1 {
+    if counter % 3 == 1 {
         type = Types.Confetti
         playAnimation()
     }
-    else if counter % 4 == 2 {
+    else if counter % 3 == 0 {
         type = Types.Balloons
         self.playAnimation()
     }
@@ -99,7 +94,7 @@ enum Colors {
  UIColor.init(patternImage: #imageLiteral(resourceName: "white").resizeImage(newWidth: 300)),
  UIColor.init(patternImage: #imageLiteral(resourceName: "yellow").resizeImage(newWidth: 300))
  ]
- var type = Types.AudienceCheer
+ var type = Types.Balloons
  override func viewWillAppear(_ animated: Bool) {
   super.viewWillAppear(animated)
     self.playAnimation()
@@ -107,8 +102,6 @@ enum Colors {
     func playAnimation(){
         self.view.sendSubview(toBack: imageView)
         switch type {
-        case .AudienceCheer:
-            self.playSound(soundName: "applause", extensionName: "mp3")
         case .FireWorks:
             emitter = CAEmitterLayer()
             self.createFireWorks()

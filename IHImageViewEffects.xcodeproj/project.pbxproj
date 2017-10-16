@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		DB3FF03F1F93C59A00BCAEE4 /* applause.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = DB3FF03B1F93C59A00BCAEE4 /* applause.mp3 */; };
 		DB3FF0401F93C59A00BCAEE4 /* firework.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = DB3FF03C1F93C59A00BCAEE4 /* firework.mp3 */; };
 		DB3FF0411F93C59A00BCAEE4 /* balloon.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = DB3FF03D1F93C59A00BCAEE4 /* balloon.mp3 */; };
 		DB3FF0421F93C59A00BCAEE4 /* confettiCannonSingleShotRemoteControlSystem.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = DB3FF03E1F93C59A00BCAEE4 /* confettiCannonSingleShotRemoteControlSystem.mp3 */; };
@@ -19,7 +18,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		DB3FF03B1F93C59A00BCAEE4 /* applause.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = applause.mp3; sourceTree = "<group>"; };
 		DB3FF03C1F93C59A00BCAEE4 /* firework.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = firework.mp3; sourceTree = "<group>"; };
 		DB3FF03D1F93C59A00BCAEE4 /* balloon.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = balloon.mp3; sourceTree = "<group>"; };
 		DB3FF03E1F93C59A00BCAEE4 /* confettiCannonSingleShotRemoteControlSystem.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = confettiCannonSingleShotRemoteControlSystem.mp3; sourceTree = "<group>"; };
@@ -46,7 +44,6 @@
 		DB3FF0431F93CE4300BCAEE4 /* audioAssets */ = {
 			isa = PBXGroup;
 			children = (
-				DB3FF03B1F93C59A00BCAEE4 /* applause.mp3 */,
 				DB3FF03D1F93C59A00BCAEE4 /* balloon.mp3 */,
 				DB3FF03E1F93C59A00BCAEE4 /* confettiCannonSingleShotRemoteControlSystem.mp3 */,
 				DB3FF03C1F93C59A00BCAEE4 /* firework.mp3 */,
@@ -148,7 +145,6 @@
 				DBEE4CF61F28402C00A1FFBB /* LaunchScreen.storyboard in Resources */,
 				DB3FF0421F93C59A00BCAEE4 /* confettiCannonSingleShotRemoteControlSystem.mp3 in Resources */,
 				DB3FF0401F93C59A00BCAEE4 /* firework.mp3 in Resources */,
-				DB3FF03F1F93C59A00BCAEE4 /* applause.mp3 in Resources */,
 				DBEE4CF31F28402C00A1FFBB /* Assets.xcassets in Resources */,
 				DBEE4CF11F28402C00A1FFBB /* Main.storyboard in Resources */,
 			);
