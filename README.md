@@ -1,5 +1,5 @@
 # IHImageViewEffects
-Provides animation based on Spritekit particle emitter no dependency on the SpriteKit framework and works as an independent normal imageView. 
+Provides animation based on Spritekit particle emitter no dependency on the SpriteKit framework and works as an independent normal imageView.
 Highly customizabe.
 Currently has 4 effects:
 1. Confetti
@@ -8,4 +8,5 @@ Currently has 4 effects:
 Animations are added on to the imageView sublayer. Animations are accompanied with Sound effects.
 
 # ScreenShot
-![simulator screen shot 16-aug-2017 12 23 44 am](https://imgur.com/gcD3Dp9)
+![gifanimationsshort](https://user-images.githubusercontent.com/16992520/31599174-cf8adce6-b26e-11e7-91b3-b947be38805e.gif)
+
