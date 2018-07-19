@@ -113,7 +113,7 @@
 				TargetAttributes = {
 					DBEE4CE71F28402C00A1FFBB = {
 						CreatedOnToolsVersion = 8.1;
-						DevelopmentTeam = RP4PNYFADM;
+						DevelopmentTeam = S22NC6S4LN;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -280,8 +280,9 @@
 		DBEE4CFB1F28402C00A1FFBB /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				DEVELOPMENT_TEAM = RP4PNYFADM;
+				DEVELOPMENT_TEAM = S22NC6S4LN;
 				INFOPLIST_FILE = IHImageViewEffects/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "IbrahimH-ss-n.IHImageViewEffects";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -292,8 +293,9 @@
 		DBEE4CFC1F28402C00A1FFBB /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				DEVELOPMENT_TEAM = RP4PNYFADM;
+				DEVELOPMENT_TEAM = S22NC6S4LN;
 				INFOPLIST_FILE = IHImageViewEffects/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "IbrahimH-ss-n.IHImageViewEffects";
 				PRODUCT_NAME = "$(TARGET_NAME)";

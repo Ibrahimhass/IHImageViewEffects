@@ -22,6 +22,7 @@
 
 import UIKit
 import AVFoundation
+import ReplayKit
 
 enum Types : Int {
     case Confetti = 1
@@ -59,6 +60,9 @@ enum Images {
 }
 
 class ImageAnimationsViewController: UIViewController {
+    
+    //RecorderKit Reference
+    fileprivate let recorder = RPScreenRecorder.shared()
     
     @IBOutlet weak var imageView: UIImageView!
     fileprivate var counter = 0
@@ -118,10 +122,66 @@ extension ImageAnimationsViewController {
     
     @objc private func longPressAction(sender: UILongPressGestureRecognizer) {
         if (sender.state == .began) {
-            print ("Start Recording")
+            self.recording(state: true)
         } else if (sender.state == .ended) {
-            print ("Stop Recording")
+            self.recording(state: false)
         }
+    }
+}
+
+extension ImageAnimationsViewController {
+    
+    fileprivate func recording(state: Bool) {
+        #if (arch(i386) || arch(x86_64)) && os(iOS)
+        print ("Replay kit screen Recording will not work on Simulator")
+        return
+        #endif
+
+        if (state) {
+            guard recorder.isAvailable else {
+                print("Recording is not available at this time.")
+                return
+            }
+            recorder.startRecording{ [unowned self] (error) in
+                guard error == nil else {
+                    print("There was an error starting the recording.")
+                    return
+                }
+                print("Started Recording Successfully")
+            }
+        } else {
+            print("Stopped recording")
+            recorder.stopRecording { (preview, error) in
+            guard let preview = preview else {
+                print("Preview controller is not available.")
+                return
+            }
+            if (UIDevice.current.userInterfaceIdiom == .pad) {
+                preview.modalPresentationStyle = .fullScreen
+            }
+            preview.previewControllerDelegate = self
+                self.present(
+                    preview,
+                    animated: true,
+                    completion: {
+                        self.gameTimer.invalidate()
+                        self.player?.stop()
+                    }
+                )
+            }
+        }
+    }
+}
+
+extension ImageAnimationsViewController : RPPreviewViewControllerDelegate {
+
+    func previewControllerDidFinish(_ previewController: RPPreviewViewController) {
+        previewController.dismiss(
+            animated: true,
+            completion: {
+                self.gameTimer = Timer.scheduledTimer(timeInterval: 3, target: self, selector: #selector(self.runTimedCode), userInfo: nil, repeats: false)
+            }
+        )
     }
 }
 
