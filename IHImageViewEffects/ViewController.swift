@@ -101,7 +101,27 @@ class ImageAnimationsViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        imageView.isUserInteractionEnabled = true
+        setUpLongPressGestureRecognizer()
         self.playAnimation()
+    }
+}
+//Long Press Gesture
+extension ImageAnimationsViewController {
+    
+    fileprivate func setUpLongPressGestureRecognizer() {
+        let longPressGesture = UILongPressGestureRecognizer.init(target: self, action: #selector(longPressAction(sender:)))
+        longPressGesture.minimumPressDuration = 0.1
+        longPressGesture.delaysTouchesBegan = true
+        imageView.addGestureRecognizer(longPressGesture)
+    }
+    
+    @objc private func longPressAction(sender: UILongPressGestureRecognizer) {
+        if (sender.state == .began) {
+            print ("Start Recording")
+        } else if (sender.state == .ended) {
+            print ("Stop Recording")
+        }
     }
 }
 
