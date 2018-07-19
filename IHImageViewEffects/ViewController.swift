@@ -22,85 +22,72 @@
 
 import UIKit
 import AVFoundation
+
 enum Types : Int {
     case Confetti = 1
     case Balloons = 2
     case FireWorks = 3
 }
+
 enum Colors {
-    static let red = UIColor(red: 1.0, green: 0.0, blue: 77.0/255.0, alpha: 1.0)
+    static let red = UIColor(
+        red: 1.0,
+        green: 0.0,
+        blue: 77.0/255.0,
+        alpha: 1.0
+    )
     static let blue = UIColor.blue
-    static let green = UIColor(red: 35.0/255.0 , green: 233/255, blue: 173/255.0, alpha: 1.0)
-    static let yellow = UIColor(red: 1, green: 209/255, blue: 77.0/255.0, alpha: 1.0)
+    static let green = UIColor(
+        red: 35.0/255.0,
+        green: 233/255,
+        blue: 173/255.0,
+        alpha: 1.0
+    )
+    static let yellow = UIColor(
+        red: 1,
+        green: 209/255,
+        blue: 77.0/255.0,
+        alpha: 1.0
+    )
 }
+
 enum Images {
-    static let box = UIImage(named: "Box")!
-    static let triangle = UIImage(named: "Triangle")!
-    static let circle = UIImage(named: "Circle")!
-    static let swirl = UIImage(named: "Spiral")!
+    static let box = #imageLiteral(resourceName: "Box")
+    static let triangle = #imageLiteral(resourceName: "Triangle")
+    static let circle = #imageLiteral(resourceName: "Circle")
+    static let swirl = #imageLiteral(resourceName: "Spiral")
 }
+
 class ImageAnimationsViewController: UIViewController {
-    var counter = 0
+    
     @IBOutlet weak var imageView: UIImageView!
-    var player: AVAudioPlayer?
-    var gameTimer: Timer!
-    func playSound(soundName : String, extensionName : String) {
-        guard let url = Bundle.main.url(forResource: soundName, withExtension: extensionName) else { return }
-        do {
-            try AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayback)
-            try AVAudioSession.sharedInstance().setActive(true)
-            gameTimer = Timer.scheduledTimer(timeInterval: 3, target: self, selector: #selector(runTimedCode), userInfo: nil, repeats: false)
-            player = try AVAudioPlayer(contentsOf: url)
-            guard let player = player else { return }
-            player.play()
-        } catch let error {
-            print(error.localizedDescription)
-        }
-    }
-    func runTimedCode() {
-        player?.stop()
-        self.imageView.layer.sublayers?.removeAll()
-        counter += 1
-        let when = DispatchTime.now() + 0.1
-        DispatchQueue.main.asyncAfter(deadline: when) {
-            // Your code with delay
-            if self.counter % 3 == 1 {
-                self.emitter = CAEmitterLayer()
-                self.type = Types.Confetti
-                self.playAnimation()
-            }
-            else if self.counter % 3 == 0 {
-                self.emitter = CAEmitterLayer()
-                self.type = Types.FireWorks
-                self.playAnimation()
-            }
-            else {
-                self.emitter = CAEmitterLayer()
-                self.type = Types.Balloons
-                self.playAnimation()
-            }
-        }
-    }
-    var emitter = CAEmitterLayer()
-    var colors:[UIColor] = [
+    fileprivate var counter = 0
+    fileprivate var player: AVAudioPlayer?
+    fileprivate var gameTimer: Timer!
+    fileprivate var emitter = CAEmitterLayer()
+    
+    fileprivate var colors:[UIColor] = [
         Colors.red,
         Colors.blue,
         Colors.green,
         Colors.yellow
     ]
-    var images:[UIImage] = [
+    
+    fileprivate var images:[UIImage] = [
         Images.box,
         Images.triangle,
         Images.circle,
         Images.swirl
     ]
-    var velocities:[Int] = [
+    
+    fileprivate var velocities:[Int] = [
         100,
         90,
         150,
         200
     ]
-    var baloonColors: [UIColor] = [
+    
+    fileprivate var baloonColors: [UIColor] = [
         UIColor.init(patternImage: #imageLiteral(resourceName: "darkBlue").resizeImage(newWidth: 300)),
         UIColor.init(patternImage: #imageLiteral(resourceName: "darkGreen").resizeImage(newWidth: 300)),
         UIColor.init(patternImage: #imageLiteral(resourceName: "deepRed").resizeImage(newWidth: 300)),
@@ -110,12 +97,40 @@ class ImageAnimationsViewController: UIViewController {
         UIColor.init(patternImage: #imageLiteral(resourceName: "white").resizeImage(newWidth: 300)),
         UIColor.init(patternImage: #imageLiteral(resourceName: "yellow").resizeImage(newWidth: 300))
     ]
-    var type = Types.Balloons
+    fileprivate var type = Types.Balloons
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.playAnimation()
     }
-    func playAnimation(){
+}
+
+extension ImageAnimationsViewController {
+    
+    @objc fileprivate func runTimedCode() {
+        player?.stop()
+        self.imageView.layer.sublayers?.removeAll()
+        counter += 1
+        let when = DispatchTime.now() + 0.1
+        DispatchQueue.main.asyncAfter(deadline: when) {
+            // Your code with delay
+            if self.counter % 3 == 0 {
+                self.emitter = CAEmitterLayer()
+                self.type = Types.FireWorks
+                self.playAnimation()
+            } else if self.counter % 3 == 1 {
+                self.emitter = CAEmitterLayer()
+                self.type = Types.Confetti
+                self.playAnimation()
+            } else {
+                self.emitter = CAEmitterLayer()
+                self.type = Types.Balloons
+                self.playAnimation()
+            }
+        }
+    }
+    
+    fileprivate func playAnimation(){
         self.view.sendSubview(toBack: imageView)
         switch type {
         case .FireWorks:
@@ -134,68 +149,40 @@ class ImageAnimationsViewController: UIViewController {
             emitter.emitterPosition = CGPoint(x: self.view.frame.size.width / 2, y: 0.0)
             emitter.emitterShape = kCAEmitterLayerLine
             emitter.emitterSize = CGSize(width: self.view.frame.size.width, height: 100.0)
-            emitter.emitterCells = generateEmitterCells()
+            emitter.emitterCells = generateEmitterCellsForConfetti()
             self.imageView.layer.addSublayer(emitter)
             self.playSound(soundName: "confettiCannonSingleShotRemoteControlSystem", extensionName: "mp3")
         }
     }
-    func createFireWorks(){
-        self.playSound(soundName: "firework", extensionName: "mp3")
-        let image = UIImage(named: "particle")
-        let img: CGImage = (image?.cgImage)!
-        emitter.emitterPosition = CGPoint(x: self.imageView.bounds.size.width/2, y: self.imageView.frame.size.height + 10)
-        emitter.renderMode = kCAEmitterLayerAdditive
-        let emitterCell = CAEmitterCell()
-        emitterCell.emissionLongitude = -CGFloat(M_PI / 2)
-        emitterCell.emissionLatitude = 0
-        emitterCell.lifetime = 2.0
-        emitterCell.birthRate = 6
-        emitterCell.velocity = 300
-        emitterCell.velocityRange = 100
-        emitterCell.yAcceleration = 150
-        emitterCell.emissionRange = CGFloat(M_PI / 4)
-        let newColor = UIColor.init(red: 1.0, green: 1.0, blue: 1.0, alpha: 0.5).cgColor
-        emitterCell.redRange = 0.5
-        emitterCell.greenRange = 0.0
-        emitterCell.blueRange = 0.0
-        emitterCell.name = "base"
-        let flareCell =  CAEmitterCell()
-        flareCell.contents = img
-        flareCell.emissionLongitude = -CGFloat(4 * M_PI) / 2
-        flareCell.scale = 0.4
-        flareCell.velocity = 80
-        flareCell.birthRate = 45
-        flareCell.lifetime = 0.5
-        flareCell.yAcceleration = -320
-        flareCell.emissionRange = CGFloat(M_PI / 7)
-        flareCell.alphaSpeed = -0.7
-        flareCell.scaleSpeed = -0.1
-        flareCell.scaleRange = 0.1
-        flareCell.beginTime = 0.01
-        flareCell.duration = 1.7
-        let fireworkCell = CAEmitterCell()
-        fireworkCell.contents = img
-        fireworkCell.birthRate = 19999
-        fireworkCell.scale = 0.1
-        fireworkCell.velocity = 130
-        fireworkCell.lifetime = 100
-        fireworkCell.alphaSpeed = -0.2
-        fireworkCell.yAcceleration = -60
-        fireworkCell.beginTime = 1.5
-        fireworkCell.duration = 0.1
-        fireworkCell.emissionRange = 2 * CGFloat(M_PI)
-        fireworkCell.scaleSpeed = -0.1
-        fireworkCell.spin = 2
-        fireworkCell.scale = 0.1
-        fireworkCell.lifetime = 0.25
-        fireworkCell.lifetimeRange = 0.8
-        fireworkCell.scaleSpeed = 0.2
-        fireworkCell.scaleRange = 1.0
-        emitterCell.emitterCells = [flareCell,fireworkCell]
-        self.emitter.emitterCells = [emitterCell]
-        self.imageView.layer.addSublayer(emitter)
+}
+
+// Common Methods
+extension ImageAnimationsViewController {
+    fileprivate func playSound(soundName : String, extensionName : String) {
+        guard let url = Bundle.main.url(forResource: soundName, withExtension: extensionName) else { return }
+        do {
+            try AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayback)
+            try AVAudioSession.sharedInstance().setActive(true)
+            gameTimer = Timer.scheduledTimer(timeInterval: 3, target: self, selector: #selector(runTimedCode), userInfo: nil, repeats: false)
+            player = try AVAudioPlayer(contentsOf: url)
+            guard let player = player else { return }
+            player.play()
+        } catch let error {
+            print(error.localizedDescription)
+        }
     }
-    private func generateBalloonEmitterCells()  -> [CAEmitterCell] {
+    
+    fileprivate func getRandomVelocity() -> Int {
+        func getRandomNumber() -> Int {
+            return Int(arc4random_uniform(4))
+        }
+        return velocities[getRandomNumber()]
+    }
+}
+
+//Balloons
+extension ImageAnimationsViewController {
+    fileprivate func generateBalloonEmitterCells()  -> [CAEmitterCell] {
         var cells : [CAEmitterCell] = [CAEmitterCell]()
         for index in 0..<8 {
             let cell = CAEmitterCell()
@@ -215,7 +202,71 @@ class ImageAnimationsViewController: UIViewController {
         }
         return cells
     }
-    private func generateEmitterCells() -> [CAEmitterCell] {
+}
+
+//Fireworks
+extension ImageAnimationsViewController {
+    fileprivate func createFireWorks(){
+        self.playSound(soundName: "firework", extensionName: "mp3")
+        let image = UIImage(named: "particle")
+        let img: CGImage = (image?.cgImage)!
+        emitter.emitterPosition = CGPoint(x: self.imageView.bounds.size.width/2, y: self.imageView.frame.size.height + 10)
+        emitter.renderMode = kCAEmitterLayerAdditive
+        let emitterCell = CAEmitterCell()
+        emitterCell.emissionLongitude = -CGFloat.pi / 2
+        emitterCell.emissionLatitude = 0
+        emitterCell.lifetime = 2.0
+        emitterCell.birthRate = 6
+        emitterCell.velocity = 300
+        emitterCell.velocityRange = 100
+        emitterCell.yAcceleration = 150
+        emitterCell.emissionRange = CGFloat.pi / 4
+        emitterCell.redRange = 0.5
+        emitterCell.greenRange = 0.0
+        emitterCell.blueRange = 0.0
+        emitterCell.name = "base"
+        let flareCell =  CAEmitterCell()
+        flareCell.contents = img
+        flareCell.emissionLongitude = CGFloat.pi * 2//-CGFloat(4 * M_PI) / 2
+        flareCell.scale = 0.4
+        flareCell.velocity = 80
+        flareCell.birthRate = 45
+        flareCell.lifetime = 0.5
+        flareCell.yAcceleration = -320
+        flareCell.emissionRange = CGFloat.pi / 7//CGFloat(M_PI / 7)
+        flareCell.alphaSpeed = -0.7
+        flareCell.scaleSpeed = -0.1
+        flareCell.scaleRange = 0.1
+        flareCell.beginTime = 0.01
+        flareCell.duration = 1.7
+        let fireworkCell = CAEmitterCell()
+        fireworkCell.contents = img
+        fireworkCell.birthRate = 19999
+        fireworkCell.scale = 0.1
+        fireworkCell.velocity = 130
+        fireworkCell.lifetime = 100
+        fireworkCell.alphaSpeed = -0.2
+        fireworkCell.yAcceleration = -60
+        fireworkCell.beginTime = 1.5
+        fireworkCell.duration = 0.1
+        fireworkCell.emissionRange = CGFloat.pi * 2//2 * CGFloat(M_PI)
+        fireworkCell.scaleSpeed = -0.1
+        fireworkCell.spin = 2
+        fireworkCell.scale = 0.1
+        fireworkCell.lifetime = 0.25
+        fireworkCell.lifetimeRange = 0.8
+        fireworkCell.scaleSpeed = 0.2
+        fireworkCell.scaleRange = 1.0
+        emitterCell.emitterCells = [flareCell,fireworkCell]
+        self.emitter.emitterCells = [emitterCell]
+        self.imageView.layer.addSublayer(emitter)
+    }
+}
+
+
+//Confetti
+extension ImageAnimationsViewController {
+    fileprivate func generateEmitterCellsForConfetti() -> [CAEmitterCell] {
         var cells:[CAEmitterCell] = [CAEmitterCell]()
         for index in 0..<16 {
             let cell = CAEmitterCell()
@@ -236,13 +287,8 @@ class ImageAnimationsViewController: UIViewController {
         }
         return cells
     }
-    private func getRandomVelocity() -> Int {
-        return velocities[getRandomNumber()]
-    }
-    private func getRandomNumber() -> Int {
-        return Int(arc4random_uniform(4))
-    }
-    private func getNextColor(i:Int) -> CGColor {
+    
+    fileprivate func getNextColor(i:Int) -> CGColor {
         if i <= 4 {
             return colors[0].cgColor
         } else if i <= 8 {
@@ -253,7 +299,8 @@ class ImageAnimationsViewController: UIViewController {
             return colors[3].cgColor
         }
     }
-    private func getNextImage(i:Int) -> CGImage {
+    
+    fileprivate func getNextImage(i:Int) -> CGImage {
         return images[i % 4].cgImage!
     }
 }
