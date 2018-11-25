@@ -7,9 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		DB3FF0401F93C59A00BCAEE4 /* firework.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = DB3FF03C1F93C59A00BCAEE4 /* firework.mp3 */; };
-		DB3FF0411F93C59A00BCAEE4 /* balloon.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = DB3FF03D1F93C59A00BCAEE4 /* balloon.mp3 */; };
-		DB3FF0421F93C59A00BCAEE4 /* confettiCannonSingleShotRemoteControlSystem.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = DB3FF03E1F93C59A00BCAEE4 /* confettiCannonSingleShotRemoteControlSystem.mp3 */; };
 		DBEE4CEC1F28402C00A1FFBB /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBEE4CEB1F28402C00A1FFBB /* AppDelegate.swift */; };
 		DBEE4CEE1F28402C00A1FFBB /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBEE4CED1F28402C00A1FFBB /* ViewController.swift */; };
 		DBEE4CF11F28402C00A1FFBB /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DBEE4CEF1F28402C00A1FFBB /* Main.storyboard */; };
@@ -18,9 +15,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		DB3FF03C1F93C59A00BCAEE4 /* firework.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = firework.mp3; sourceTree = "<group>"; };
-		DB3FF03D1F93C59A00BCAEE4 /* balloon.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = balloon.mp3; sourceTree = "<group>"; };
-		DB3FF03E1F93C59A00BCAEE4 /* confettiCannonSingleShotRemoteControlSystem.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = confettiCannonSingleShotRemoteControlSystem.mp3; sourceTree = "<group>"; };
 		DBEE4CE81F28402C00A1FFBB /* IHImageViewEffects.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = IHImageViewEffects.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DBEE4CEB1F28402C00A1FFBB /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		DBEE4CED1F28402C00A1FFBB /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -41,16 +35,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		DB3FF0431F93CE4300BCAEE4 /* audioAssets */ = {
-			isa = PBXGroup;
-			children = (
-				DB3FF03D1F93C59A00BCAEE4 /* balloon.mp3 */,
-				DB3FF03E1F93C59A00BCAEE4 /* confettiCannonSingleShotRemoteControlSystem.mp3 */,
-				DB3FF03C1F93C59A00BCAEE4 /* firework.mp3 */,
-			);
-			path = audioAssets;
-			sourceTree = "<group>";
-		};
 		DBEE4CDF1F28402C00A1FFBB = {
 			isa = PBXGroup;
 			children = (
@@ -72,7 +56,6 @@
 			children = (
 				DBEE4CEB1F28402C00A1FFBB /* AppDelegate.swift */,
 				DBEE4CED1F28402C00A1FFBB /* ViewController.swift */,
-				DB3FF0431F93CE4300BCAEE4 /* audioAssets */,
 				DBEE4CEF1F28402C00A1FFBB /* Main.storyboard */,
 				DBEE4CF21F28402C00A1FFBB /* Assets.xcassets */,
 				DBEE4CF41F28402C00A1FFBB /* LaunchScreen.storyboard */,
@@ -141,10 +124,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DB3FF0411F93C59A00BCAEE4 /* balloon.mp3 in Resources */,
 				DBEE4CF61F28402C00A1FFBB /* LaunchScreen.storyboard in Resources */,
-				DB3FF0421F93C59A00BCAEE4 /* confettiCannonSingleShotRemoteControlSystem.mp3 in Resources */,
-				DB3FF0401F93C59A00BCAEE4 /* firework.mp3 in Resources */,
 				DBEE4CF31F28402C00A1FFBB /* Assets.xcassets in Resources */,
 				DBEE4CF11F28402C00A1FFBB /* Main.storyboard in Resources */,
 			);
@@ -286,7 +266,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "IbrahimH-ss-n.IHImageViewEffects";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 3.0;
+				SWIFT_VERSION = 4.0;
 			};
 			name = Debug;
 		};
@@ -299,7 +279,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "IbrahimH-ss-n.IHImageViewEffects";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 3.0;
+				SWIFT_VERSION = 4.0;
 			};
 			name = Release;
 		};

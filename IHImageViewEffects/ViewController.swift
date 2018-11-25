@@ -66,7 +66,6 @@ class ImageAnimationsViewController: UIViewController {
     
     @IBOutlet weak var imageView: UIImageView!
     fileprivate var counter = 0
-    fileprivate var player: AVAudioPlayer?
     fileprivate var gameTimer: Timer!
     fileprivate var emitter = CAEmitterLayer()
     
@@ -132,7 +131,7 @@ extension ImageAnimationsViewController {
 extension ImageAnimationsViewController {
     
     fileprivate func recording(state: Bool) {
-        #if (arch(i386) || arch(x86_64)) && os(iOS)
+        #if targetEnvironment(simulator)
         print ("Replay kit screen Recording will not work on Simulator")
         return
         #endif
@@ -142,7 +141,7 @@ extension ImageAnimationsViewController {
                 print("Recording is not available at this time.")
                 return
             }
-            recorder.startRecording{ [unowned self] (error) in
+            recorder.startRecording{ (error) in
                 guard error == nil else {
                     print("There was an error starting the recording.")
                     return
@@ -165,7 +164,6 @@ extension ImageAnimationsViewController {
                     animated: true,
                     completion: {
                         self.gameTimer.invalidate()
-                        self.player?.stop()
                     }
                 )
             }
@@ -188,7 +186,6 @@ extension ImageAnimationsViewController : RPPreviewViewControllerDelegate {
 extension ImageAnimationsViewController {
     
     @objc fileprivate func runTimedCode() {
-        player?.stop()
         self.imageView.layer.sublayers?.removeAll()
         counter += 1
         let when = DispatchTime.now() + 0.1
@@ -244,9 +241,6 @@ extension ImageAnimationsViewController {
             try AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayback)
             try AVAudioSession.sharedInstance().setActive(true)
             gameTimer = Timer.scheduledTimer(timeInterval: 3, target: self, selector: #selector(runTimedCode), userInfo: nil, repeats: false)
-            player = try AVAudioPlayer(contentsOf: url)
-            guard let player = player else { return }
-            player.play()
         } catch let error {
             print(error.localizedDescription)
         }
@@ -386,6 +380,7 @@ extension ImageAnimationsViewController {
 }
 
 extension UIImage {
+    
     func overlayed(by overlayColor: UIColor) -> UIImage {
         //  Create rect to fit the image
         let rect = CGRect(x: 0, y: 0, width: self.size.width, height: self.size.height)
@@ -403,6 +398,7 @@ extension UIImage {
         UIGraphicsEndImageContext()
         return overlayedImage
     }
+    
     func resizeImage(newWidth: CGFloat) -> UIImage {
         let scale = newWidth / self.size.width
         let newHeight = self.size.height * scale
