@@ -1,24 +1,24 @@
-//  MIT License
+// MIT License
 //
-//Copyright (c) 2017 Md Ibrahim Hassan
+// Copyright (c) 2017 Md Ibrahim Hassan
 //
-//Permission is hereby granted, free of charge, to any person obtaining a copy
-//of this software and associated documentation files (the "Software"), to deal
-//in the Software without restriction, including without limitation the rights
-//to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-//copies of the Software, and to permit persons to whom the Software is
-//furnished to do so, subject to the following conditions:
+// Permission is hereby granted, free of charge, to any person obtaining a copy
+// of this software and associated documentation files (the "Software"), to deal
+// in the Software without restriction, including without limitation the rights
+// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+// copies of the Software, and to permit persons to whom the Software is
+// furnished to do so, subject to the following conditions:
 //
-//The above copyright notice and this permission notice shall be included in all
-//copies or substantial portions of the Software.
+// The above copyright notice and this permission notice shall be included in all
+// copies or substantial portions of the Software.
 //
-//THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-//IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-//FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-//AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-//LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-//OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-//SOFTWARE.
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+// SOFTWARE.
 
 import UIKit
 import AVFoundation
@@ -62,35 +62,35 @@ enum Images {
 class ImageAnimationsViewController: UIViewController {
     
     //RecorderKit Reference
-    fileprivate let recorder = RPScreenRecorder.shared()
+    private let recorder = RPScreenRecorder.shared()
     
     @IBOutlet weak var imageView: UIImageView!
-    fileprivate var counter = 0
-    fileprivate var gameTimer: Timer!
-    fileprivate var emitter = CAEmitterLayer()
+    private var counter = 0
+    private var gameTimer: Timer!
+    private var emitter = CAEmitterLayer()
     
-    fileprivate var colors:[UIColor] = [
+    private var colors:[UIColor] = [
         Colors.red,
         Colors.blue,
         Colors.green,
         Colors.yellow
     ]
     
-    fileprivate var images:[UIImage] = [
+    private var images:[UIImage] = [
         Images.box,
         Images.triangle,
         Images.circle,
         Images.swirl
     ]
     
-    fileprivate var velocities:[Int] = [
+    private var velocities:[Int] = [
         100,
         90,
         150,
         200
     ]
     
-    fileprivate var baloonColors: [UIColor] = [
+    private var baloonColors: [UIColor] = [
         UIColor.init(patternImage: #imageLiteral(resourceName: "darkBlue").resizeImage(newWidth: 300)),
         UIColor.init(patternImage: #imageLiteral(resourceName: "darkGreen").resizeImage(newWidth: 300)),
         UIColor.init(patternImage: #imageLiteral(resourceName: "deepRed").resizeImage(newWidth: 300)),
@@ -100,19 +100,21 @@ class ImageAnimationsViewController: UIViewController {
         UIColor.init(patternImage: #imageLiteral(resourceName: "white").resizeImage(newWidth: 300)),
         UIColor.init(patternImage: #imageLiteral(resourceName: "yellow").resizeImage(newWidth: 300))
     ]
-    fileprivate var type = Types.Balloons
+    
+    private var type = Types.Balloons
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        
         imageView.isUserInteractionEnabled = true
         setUpLongPressGestureRecognizer()
-        self.playAnimation()
+        playAnimation()
     }
 }
-//Long Press Gesture
+
+// MARK: Long Press Gesture
 extension ImageAnimationsViewController {
-    
-    fileprivate func setUpLongPressGestureRecognizer() {
+    private func setUpLongPressGestureRecognizer() {
         let longPressGesture = UILongPressGestureRecognizer.init(target: self, action: #selector(longPressAction(sender:)))
         longPressGesture.minimumPressDuration = 0.1
         longPressGesture.delaysTouchesBegan = true
@@ -121,44 +123,48 @@ extension ImageAnimationsViewController {
     
     @objc private func longPressAction(sender: UILongPressGestureRecognizer) {
         if (sender.state == .began) {
-            self.recording(state: true)
+            recording(state: true)
         } else if (sender.state == .ended) {
-            self.recording(state: false)
+            recording(state: false)
         }
     }
 }
 
 extension ImageAnimationsViewController {
     
-    fileprivate func recording(state: Bool) {
-        #if targetEnvironment(simulator)
+    private func recording(state: Bool) {
+#if targetEnvironment(simulator)
         print ("Replay kit screen Recording will not work on Simulator")
         return
-        #endif
-
+#endif
+        
         if (state) {
             guard recorder.isAvailable else {
                 print("Recording is not available at this time.")
                 return
             }
+            
             recorder.startRecording{ (error) in
                 guard error == nil else {
                     print("There was an error starting the recording.")
                     return
                 }
+                
                 print("Started Recording Successfully")
             }
         } else {
             print("Stopped recording")
             recorder.stopRecording { (preview, error) in
-            guard let preview = preview else {
-                print("Preview controller is not available.")
-                return
-            }
-            if (UIDevice.current.userInterfaceIdiom == .pad) {
-                preview.modalPresentationStyle = .fullScreen
-            }
-            preview.previewControllerDelegate = self
+                guard let preview = preview else {
+                    print("Preview controller is not available.")
+                    return
+                }
+                
+                if (UIDevice.current.userInterfaceIdiom == .pad) {
+                    preview.modalPresentationStyle = .fullScreen
+                }
+                
+                preview.previewControllerDelegate = self
                 self.present(
                     preview,
                     animated: true,
@@ -185,60 +191,63 @@ extension ImageAnimationsViewController : RPPreviewViewControllerDelegate {
 
 extension ImageAnimationsViewController {
     
-    @objc fileprivate func runTimedCode() {
-        self.imageView.layer.sublayers?.removeAll()
+    @objc private func runTimedCode() {
+        imageView.layer.sublayers?.removeAll()
         counter += 1
         let when = DispatchTime.now() + 0.1
-        DispatchQueue.main.asyncAfter(deadline: when) {
+        DispatchQueue.main.asyncAfter(deadline: when) { [self] in
             // Your code with delay
-            if self.counter % 3 == 0 {
-                self.emitter = CAEmitterLayer()
-                self.type = Types.FireWorks
-                self.playAnimation()
-            } else if self.counter % 3 == 1 {
-                self.emitter = CAEmitterLayer()
-                self.type = Types.Confetti
-                self.playAnimation()
+            if counter % 3 == 0 {
+                emitter = CAEmitterLayer()
+                type = Types.FireWorks
+                playAnimation()
+            } else if counter % 3 == 1 {
+                emitter = CAEmitterLayer()
+                type = Types.Confetti
+                playAnimation()
             } else {
-                self.emitter = CAEmitterLayer()
-                self.type = Types.Balloons
-                self.playAnimation()
+                emitter = CAEmitterLayer()
+                type = Types.Balloons
+                playAnimation()
             }
         }
     }
     
-    fileprivate func playAnimation(){
-        self.view.sendSubview(toBack: imageView)
+    private func playAnimation() {
+        view.sendSubviewToBack(imageView)
         switch type {
         case .FireWorks:
             emitter = CAEmitterLayer()
-            self.createFireWorks()
+            createFireWorks()
         case .Balloons:
             emitter = CAEmitterLayer()
-            emitter.emitterPosition = CGPoint.init(x: self.view.frame.size.width/2, y: self.view.frame.size.height + 100.0)
-            emitter.emitterShape = kCAEmitterLayerLine
-            emitter.emitterSize = CGSize.init(width: self.view.frame.size.width, height: 2.0)
+            emitter.emitterPosition = CGPoint.init(x: view.frame.size.width/2, y: view.frame.size.height + 100.0)
+            emitter.emitterShape = CAEmitterLayerEmitterShape.line
+            emitter.emitterSize = CGSize.init(width: view.frame.size.width, height: 2.0)
             emitter.emitterCells = generateBalloonEmitterCells()
-            self.imageView.layer.addSublayer(emitter)
-            self.playSound(soundName: "balloon", extensionName: "mp3")
+            imageView.layer.addSublayer(emitter)
+            playSound(soundName: "balloon", extensionName: "mp3")
         case .Confetti:
             emitter = CAEmitterLayer()
-            emitter.emitterPosition = CGPoint(x: self.view.frame.size.width / 2, y: 0.0)
-            emitter.emitterShape = kCAEmitterLayerLine
-            emitter.emitterSize = CGSize(width: self.view.frame.size.width, height: 100.0)
+            emitter.emitterPosition = CGPoint(x: view.frame.size.width / 2, y: 0.0)
+            emitter.emitterShape = CAEmitterLayerEmitterShape.line
+            emitter.emitterSize = CGSize(width: view.frame.size.width, height: 100.0)
             emitter.emitterCells = generateEmitterCellsForConfetti()
-            self.imageView.layer.addSublayer(emitter)
-            self.playSound(soundName: "confettiCannonSingleShotRemoteControlSystem", extensionName: "mp3")
+            imageView.layer.addSublayer(emitter)
+            playSound(soundName: "confettiCannonSingleShotRemoteControlSystem", extensionName: "mp3")
         }
     }
 }
 
 // Common Methods
 extension ImageAnimationsViewController {
-    fileprivate func playSound(soundName : String, extensionName : String) {
-        guard let url = Bundle.main.url(forResource: soundName, withExtension: extensionName) else { return }
+    private func playSound(soundName : String, extensionName : String) {
+        guard let _ = Bundle.main.url(forResource: soundName, withExtension: extensionName) else {
+            return
+        }
+        
         do {
-            try AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayback)
+            try AVAudioSession.sharedInstance().setCategory(AVAudioSession.Category.playback)
             try AVAudioSession.sharedInstance().setActive(true)
             gameTimer = Timer.scheduledTimer(timeInterval: 3, target: self, selector: #selector(runTimedCode), userInfo: nil, repeats: false)
         } catch let error {
@@ -246,7 +255,7 @@ extension ImageAnimationsViewController {
         }
     }
     
-    fileprivate func getRandomVelocity() -> Int {
+    private func getRandomVelocity() -> Int {
         func getRandomNumber() -> Int {
             return Int(arc4random_uniform(4))
         }
@@ -256,14 +265,14 @@ extension ImageAnimationsViewController {
 
 //Balloons
 extension ImageAnimationsViewController {
-    fileprivate func generateBalloonEmitterCells()  -> [CAEmitterCell] {
+    private func generateBalloonEmitterCells()  -> [CAEmitterCell] {
         var cells : [CAEmitterCell] = [CAEmitterCell]()
         for index in 0..<8 {
             let cell = CAEmitterCell()
             cell.birthRate = 0.5
             cell.lifetime = 10.0
             cell.lifetimeRange = 0.0
-            cell.velocity = CGFloat(self.getRandomVelocity())
+            cell.velocity = CGFloat(getRandomVelocity())
             cell.emissionLongitude = CGFloat(0)
             cell.emissionRange = 0.0
             cell.spinRange = 0.0
@@ -280,12 +289,12 @@ extension ImageAnimationsViewController {
 
 //Fireworks
 extension ImageAnimationsViewController {
-    fileprivate func createFireWorks(){
-        self.playSound(soundName: "firework", extensionName: "mp3")
+    private func createFireWorks(){
+        playSound(soundName: "firework", extensionName: "mp3")
         let image = UIImage(named: "particle")
         let img: CGImage = (image?.cgImage)!
-        emitter.emitterPosition = CGPoint(x: self.imageView.bounds.size.width/2, y: self.imageView.frame.size.height + 10)
-        emitter.renderMode = kCAEmitterLayerAdditive
+        emitter.emitterPosition = CGPoint(x: imageView.bounds.size.width/2, y: imageView.frame.size.height + 10)
+        emitter.renderMode = CAEmitterLayerRenderMode.additive
         let emitterCell = CAEmitterCell()
         emitterCell.emissionLongitude = -CGFloat.pi / 2
         emitterCell.emissionLatitude = 0
@@ -332,15 +341,15 @@ extension ImageAnimationsViewController {
         fireworkCell.scaleSpeed = 0.2
         fireworkCell.scaleRange = 1.0
         emitterCell.emitterCells = [flareCell,fireworkCell]
-        self.emitter.emitterCells = [emitterCell]
-        self.imageView.layer.addSublayer(emitter)
+        emitter.emitterCells = [emitterCell]
+        imageView.layer.addSublayer(emitter)
     }
 }
 
 
 //Confetti
 extension ImageAnimationsViewController {
-    fileprivate func generateEmitterCellsForConfetti() -> [CAEmitterCell] {
+    private func generateEmitterCellsForConfetti() -> [CAEmitterCell] {
         var cells:[CAEmitterCell] = [CAEmitterCell]()
         for index in 0..<16 {
             let cell = CAEmitterCell()
@@ -362,7 +371,7 @@ extension ImageAnimationsViewController {
         return cells
     }
     
-    fileprivate func getNextColor(i:Int) -> CGColor {
+    private func getNextColor(i:Int) -> CGColor {
         if i <= 4 {
             return colors[0].cgColor
         } else if i <= 8 {
@@ -374,7 +383,7 @@ extension ImageAnimationsViewController {
         }
     }
     
-    fileprivate func getNextImage(i:Int) -> CGImage {
+    private func getNextImage(i:Int) -> CGImage {
         return images[i % 4].cgImage!
     }
 }
@@ -383,7 +392,7 @@ extension UIImage {
     
     func overlayed(by overlayColor: UIColor) -> UIImage {
         //  Create rect to fit the image
-        let rect = CGRect(x: 0, y: 0, width: self.size.width, height: self.size.height)
+        let rect = CGRect(x: 0, y: 0, width: size.width, height: size.height)
         // Create image context. 0 means scale of device's main screen
         UIGraphicsBeginImageContextWithOptions(rect.size, false, 0)
         let context = UIGraphicsGetCurrentContext()!
@@ -391,7 +400,7 @@ extension UIImage {
         overlayColor.setFill()
         context.fill(rect)
         //  Make the final shape by masking the drawn color with the images alpha values
-        self.draw(in: rect, blendMode: .destinationIn, alpha: 1)
+        draw(in: rect, blendMode: .destinationIn, alpha: 1)
         //  Make the final shape by masking the drawn color with the images alpha values
         let overlayedImage = UIGraphicsGetImageFromCurrentImageContext()!
         //  Release context
@@ -400,10 +409,10 @@ extension UIImage {
     }
     
     func resizeImage(newWidth: CGFloat) -> UIImage {
-        let scale = newWidth / self.size.width
-        let newHeight = self.size.height * scale
+        let scale = newWidth / size.width
+        let newHeight = size.height * scale
         UIGraphicsBeginImageContext(CGSize.init(width: newWidth, height: newHeight))
-        self.draw(in: CGRect.init(x: 0, y: 0, width: newWidth, height: newHeight))
+        draw(in: CGRect.init(x: 0, y: 0, width: newWidth, height: newHeight))
         let newImage = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
         return newImage!
