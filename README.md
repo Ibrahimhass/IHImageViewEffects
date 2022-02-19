@@ -5,7 +5,9 @@ Currently has 3 effects:
 1. Confetti
 2. Fire Crackers
 3. Baloons
-Animations are added on to the imageView sublayer. Animations are accompanied with Sound effects.
+Animations are added on to the imageView sublayer. 
+
+Animations are accompanied with Sound effects.
 You can record your screen by long pressing the image view.
 
 # ScreenShot
